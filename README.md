@@ -1,6 +1,6 @@
-# WIS:An Approximate Algorithm for Temporal Hypergraph Motif Counting Integrating Shift Strategy and Temporal Weighting
+# WIS:Approximate Temporal Hypergraph Motif Counting with Shifted Strategy and Temporal Weighting
 
-Code for the paper "An Approximate Algorithm for Temporal Hypergraph Motif Counting Integrating Shift Strategy and Temporal Weighting".
+Code for the paper "Approximate Temporal Hypergraph Motif Counting with Shifted Strategy and Temporal Weighting".
 
 We provide several processed datasets as examples for reference. The complete real-world datasets can be found [here](https://www.cs.cornell.edu/~arb/data/).
 
