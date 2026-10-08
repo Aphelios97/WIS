@@ -11,3 +11,5 @@ You can run demo with any dataset.
 `deal_dataset.cpp` is used to process the original dataset into the input format required by the algorithm.
 
 To run WIS,type 'run_WIS.sh'
+
+To run WcA,type 'run_WCA.sh'
