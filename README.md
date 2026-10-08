@@ -12,4 +12,4 @@ You can run demo with any dataset.
 
 To run WIS,type 'run_WIS.sh'
 
-To run WcA,type 'run_WCA.sh'
+To run WCA,type 'run_WCA.sh'
