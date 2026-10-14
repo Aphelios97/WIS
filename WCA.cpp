@@ -241,21 +241,6 @@ int main(int argc, char* argv[]) {
         total_candidates +=
             (unsigned long long)Omega_i.size();
 
-        unordered_set<unsigned long long> omega_pairs;
-        omega_pairs.reserve(Omega_i.size() * 2 + 1);
-
-        for (int wedge_id : Omega_i) {
-            const TemporalWedge& w = Lambda_C[wedge_id];
-            int x = min(w.a, w.b);
-            int y = max(w.a, w.b);
-            unsigned long long key =
-                (static_cast<unsigned long long>(
-                    static_cast<unsigned int>(x)) << 32)
-                | static_cast<unsigned int>(y);
-            omega_pairs.insert(key);
-        }
-
-
         for (int wedge_id : Omega_i) {
 
             const TemporalWedge& wedge =
@@ -350,84 +335,6 @@ int main(int argc, char* argv[]) {
             ++total_motifs;
         }
 
-        for (size_t x = 0; x < N_i.size(); ++x) {
-            int j = N_i[x];
-
-            for (size_t y = x + 1; y < N_i.size(); ++y) {
-                int k = N_i[y];
-
-                int p = min(j, k);
-                int q = max(j, k);
-                unsigned long long key =
-                    (static_cast<unsigned long long>(
-                        static_cast<unsigned int>(p)) << 32)
-                    | static_cast<unsigned int>(q);
-
-                // If (j,k) is already a wedge, it was counted above.
-                if (omega_pairs.find(key) != omega_pairs.end()) {
-                    continue;
-                }
-
-                int C_ij = neighbor_inter[j];
-                int C_ik = neighbor_inter[k];
-
-                // Both j and k are in N_i, so these should be positive.
-                if (C_ij <= 0 || C_ik <= 0) {
-                    continue;
-                }
-
-                int global_j = order[j];
-                int global_k = order[k];
-
-                double t_j = hyperedge2time[global_j];
-                double t_k = hyperedge2time[global_k];
-
-                double t_min = min(t_i, min(t_j, t_k));
-                double t_max = max(t_i, max(t_j, t_k));
-
-                if (t_max - t_min > delta) {
-                    continue;
-                }
-
-                /*
-                 * Since j and k do not intersect:
-                 *     C_jk = 0
-                 * and therefore the triple intersection is also 0.
-                 */
-                int motif_idx =
-                    get_motif_index(
-                        (int)hyperedge2node[global_i].size(),
-                        (int)hyperedge2node[global_j].size(),
-                        (int)hyperedge2node[global_k].size(),
-
-                        C_ij,
-                        0,
-                        C_ik,
-
-                        0,
-
-                        t_i,
-                        t_j,
-                        t_k
-                    );
-
-                if (motif_idx < 0 || motif_idx >= 96) {
-                    cerr
-                        << "WARNING: invalid motif index "
-                        << motif_idx
-                        << " for temporal edges "
-                        << global_j << ", "
-                        << global_k << ", "
-                        << global_i << "\n";
-                    continue;
-                }
-
-                ++total_candidates;
-                ++motif_count[motif_idx];
-                ++total_motifs;
-            }
-        }
-
         for (int m : N_i) {
 
             TemporalWedge new_wedge;
@@ -505,4 +412,3 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }
-
